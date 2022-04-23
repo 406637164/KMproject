@@ -64,7 +64,7 @@ p {
 .container #samples {
   border: 1px solid gainsboro;
   display: flex;
-  width: 1382px;
+  width: 1392px;
   height: 100px;
   background-color: white;
   text-align: center;
@@ -678,4 +678,31 @@ div.tooltip {
 .small_clicked {
   border: 5px solid red;
   width: 1880px;
+}
+.uncircle .circles {
+  transition: all 0.5s ease-in-out;
+}
+.arrow line {
+  transition: all 0.5s ease-in-out;
+}
+.arrow-right line {
+  transition: all 0.5s ease-in-out;
+}
+.arrow-left line {
+  transition: all 0.5s ease-in-out;
+}
+.drawrect {
+  position: relative;
+  opacity: 0.7;
+}
+circle {
+  position: absolute;
+}
+path {
+  position: absolute;
+}
+line {
+  position: absolute;
+  transition: y2 0.5s linear 0.5s;
+  transition-duration: 4s;
 }

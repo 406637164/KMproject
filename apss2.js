@@ -146,6 +146,10 @@ for (let i = 0; i < datas.length; i++) {
           .select(".small_sample")
           .select("svg");
         // console.log(d3.select(this.children[0]));
+
+        console.log(data);
+        console.log(clicked_svg.selectAll("circle").data(data));
+
         clicked_svg
 
           .selectAll("circle")
@@ -158,6 +162,17 @@ for (let i = 0; i < datas.length; i++) {
           })
           .attr("cy", (d) => yScale_small(d.hour) - 15);
 
+        clicked_svg
+
+          .selectAll("circle")
+          .data(data)
+          .join("circle")
+          .attr("class", "cir")
+
+          .attr("cx", (d) => {
+            return xScale_small(d.date);
+          })
+          .attr("cy", (d) => yScale_small(d.hour) - 15);
         clicked_svg
           .append("g")
           .attr("transform", `translate(0,${heights})`)
@@ -179,8 +194,42 @@ for (let i = 0; i < datas.length; i++) {
         //   console.log(g);
         // });
 
-        console.log(clicked_svg.selectAll(".groups1"));
-        var group2s = clicked_svg.append("g").classed("groups1", true);
+        let group2s = clicked_svg.append("g").classed("groups1", true);
+
+        var gro = Array.from(
+          d3
+            .select(d3.select(clicked_svg._groups[0][0]).node())
+            .selectAll(".groups1")
+        );
+
+        for (var o = 0; o < gro.length; o++) {
+          if (o != 0) {
+            gro[o].remove();
+          }
+          // console.log(gro[o]);
+        }
+
+        // if (!clicked_svg.selectAll("g").classList.contains("groups1")) {
+        //   console.log(
+        //     !clicked_svg.selectAll("g").classList.contains("groups1")
+        //   );
+        // }
+
+        // var rectcolor = ["#EFF4AC", "#34C4E3", "#000000"];
+        // clicked_svg
+        //   .selectAll("rect")
+        //   .data(rectcolor)
+        //   .enter()
+        //   .append("rect")
+        //   .attr("x", 60)
+        //   .attr("y", (d, i) => 93 * i)
+        //   .attr("position", "relative")
+        //   .attr("z-index", "-10")
+        //   .attr("width", 1250)
+        //   .attr("height", 95)
+        //   .attr("transform", "translate(" + 0 + "," + 5 + ")")
+        //   .attr("fill", (d) => d)
+        //   .attr("opacity", 0.2);
         arcs = group2s.attr("transform", "translate(10,0)");
         arcs
           .append("g")
@@ -321,6 +370,7 @@ for (let i = 0; i < datas.length; i++) {
           )
           .style("stroke-width", "2px")
           .style("opacity", 0.7);
+        // if (!clicked_svg.selectAll("g").classList.contains("circle2")) {
         clicked_svg
           .append("g")
           .classed("circle2", true)
@@ -329,6 +379,8 @@ for (let i = 0; i < datas.length; i++) {
           .call(yAxis_small)
           .selectAll("text")
           .style("font-size", "15px");
+        // }
+
         for (i of d3.selectAll("section")) {
           if (this.getAttribute("id") != i.getAttribute("id")) {
             // i.children[0].classList.add("small_block");
@@ -387,12 +439,47 @@ for (let i = 0; i < datas.length; i++) {
                     $(d3.select(main).select(".detailactive").node()).hide();
                     main.classList.remove("active");
                     main.classList.add("main_block");
+                    $(document).ready(function () {
+                      $(
+                        d3.select(main).select(".groups").select(".uncircle")
+                          ._groups[0][0]
+                      ).hide();
+                      $(
+                        d3.select(main).select(".groups").select(".arrow")
+                          ._groups[0][0]
+                      ).hide();
+                      $(
+                        d3.select(main).select(".groups").select(".arrow-right")
+                          ._groups[0][0]
+                      ).hide();
+
+                      $(
+                        d3.select(main).select(".groups").select(".arrow-left")
+                          ._groups[0][0]
+                      ).hide();
+                    });
+                    // console.log(
+                    //   d3.select(main).select(".groups").select(".arrow-left")
+                    //     ._groups[0][0]
+                    // );
+                    // d3.select(main)
+                    //   .select(".groups")
+                    //   .selectAll(".uncircle")
+                    //   .remove();
+                    // d3.select(main)
+                    //   .select(".groups")
+                    //   .selectAll(".arrow")
+                    //   .remove();
+                    // d3.select(main)
+                    //   .select(".groups")
+                    //   .selectAll(".arrow-right")
+                    //   .remove();
+                    // d3.select(main)
+                    //   .select(".groups")
+                    //   .selectAll(".arrow-left")
+                    //   .remove();
                   });
-                  d3.select(i.children[0])
-                    .select("svg")
-                    .selectAll("circle")
-                    .attr("stroke", null)
-                    .attr("stroke-width", null);
+
                   // console.log(d3.select(i).select(".detailactive"));
                 }
                 // console.log(i.children[0]);
@@ -406,6 +493,7 @@ for (let i = 0; i < datas.length; i++) {
         }
         // console.log(this.getAttribute("id"));
       });
+
       d3.selectAll(".mask").on("click", function (s, q) {
         // s.preventDefault();
         console.log(s);

@@ -87,10 +87,7 @@ function showdata2(data) {
     .attr("transform", "translate(" + 0 + "," + 5 + ")")
     .attr("fill", (d) => d)
     .attr("opacity", 0.2);
-  var main_collector = d3
-    .select("#main_collector")
-    .data(data)
-    .text((d) => d.user.login);
+
   //   console.log(data);
 
   let taxon = null;
@@ -113,12 +110,11 @@ function showdata2(data) {
     d.hour.setTime(todayMillis + timePeriodMillis);
     picuture = d.photos.map((d) => d.url);
     d.picuture = picuture[0];
-    // console.log();
-    // data.picture
-    console.log(d.picuture);
-    // console.log(d);
   });
-
+  var main_collector = d3
+    .select("#main_collector")
+    .data(data)
+    .text((d) => d.user.login);
   var margins = { top: 20, right: 20, bottom: 20, left: 20 },
     widths = 1350 - margins.left - margins.right,
     heights = 40 - margins.top - margins.bottom;
@@ -320,6 +316,24 @@ function showdata2(data) {
       console.log(d3.select(this)._groups[0][0].__data__.time_observed_at);
 
       var uncircles = groups.select(".uncircle").selectAll("path")._groups[0];
+      console.log(uncircles.parentNode);
+      // console.log(
+      //   d3.select(groups._groups[0][0]).select(".uncircle")._groups[0][0]
+      // );
+      $(document).ready(function () {
+        $(
+          d3.select(groups._groups[0][0]).select(".uncircle")._groups[0][0]
+        ).show();
+        $(
+          d3.select(groups._groups[0][0]).select(".arrow")._groups[0][0]
+        ).show();
+        $(
+          d3.select(groups._groups[0][0]).select(".arrow-right")._groups[0][0]
+        ).show();
+        $(
+          d3.select(groups._groups[0][0]).select(".arrow-left")._groups[0][0]
+        ).show();
+      });
       uncircles.forEach((items) => {
         // console.log(items.__data__.time_observed_at);
 
