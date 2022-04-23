@@ -37,5 +37,53 @@
       .attr("class", "arc")
       .attr("d", arc)
       .attr("fill", "green");
+
+    var arrowStartPosition = 5;
+    var arrowSpacing = 60;
+    var verticalStrokeColor = "black";
+    var arrowYStartPosition = 5;
+    var arrowYEndStartPosition = 150;
+    var margin = 150;
+
+    var svgContainer = d3
+      .select("body")
+      .append("svg")
+      .attr("width", 1200)
+      .attr("height", 1200)
+      .attr("text-align", "center");
+    var arrowStartPosition = 5;
+    var arrowSpacing = 60;
+    var verticalStrokeColor = "black";
+    var arrowYStartPosition = 5;
+    var arrowYEndStartPosition = 150;
+    var margin = 150;
+    var labelLine = svgContainer
+      .append("line")
+      .attr("x1", arrowStartPosition + margin)
+      .attr("y1", arrowYStartPosition)
+      .attr("x2", arrowStartPosition + margin)
+      .attr("y2", arrowYEndStartPosition + 50)
+      .attr("stroke-width", 2)
+      .style("stroke-dasharray", "5, 5")
+      .style("stroke", "black");
+
+    var right = svgContainer
+      .append("line")
+      .attr("x1", arrowStartPosition + margin)
+      .attr("y1", arrowYEndStartPosition + 50)
+      .attr("x2", 20 + margin)
+      .style("stroke-dasharray", "5, 5")
+      .attr("y2", arrowYEndStartPosition)
+      .attr("stroke-width", 2)
+      .style("stroke", "black");
+    var left = svgContainer
+      .append("line")
+      .attr("x1", right.attr("x1"))
+      .attr("y1", right.attr("y1"))
+      .style("stroke-dasharray", "5, 5")
+      .attr("x2", right.attr("x2") - 30)
+      .attr("y2", right.attr("y2"))
+      .attr("stroke-width", 2)
+      .style("stroke", "black");
   </script>
 </html>
