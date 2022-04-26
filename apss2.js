@@ -7,7 +7,6 @@ const url = "https://api.inaturalist.org/v1/observations/80365";
 //   showdata(data);
 // }
 datas = [
-  "https://api.inaturalist.org/v1/observations?user_login=yenshu1&year=2022&order=desc&order_by=created_at",
   "https://api.inaturalist.org/v1/observations?user_login=xin883238&year=2022&order=desc&order_by=created_at",
   "https://api.inaturalist.org/v1/observations?user_login=ssnp100&year=2022&order=desc&order_by=created_at",
   "https://api.inaturalist.org/v1/observations?user_login=wairambar_rainforest&year=2022&order=desc&order_by=created_at",
@@ -137,49 +136,86 @@ for (let i = 0; i < datas.length; i++) {
           .select("svg")
           .attr("height", heights + margin.top + margin.bottom);
 
-        xScale_small.range([margins.left + 25, widths + margin.right]);
+        // xScale_small.range([margins.left + 25, widths + margin.right]);
 
         // xScale_small.range([margins.left + 25, 1300]).nice();
-        yScale_small.range([margins.bottom, heights]);
+        // yScale_small.range([margins.bottom, heights]);
+
         let clicked_svg = d3
           .select(this.children[0])
           .select(".small_sample")
           .select("svg");
         // console.log(d3.select(this.children[0]));
 
+        const xScale_smalls = d3
+          .scaleTime()
+          .domain(d3.extent(data, (d) => d.date))
+          .range([50, widths + margin.right])
+          .nice();
+        // console.log(d3.extent(data, (d) => d.date));
+
+        const xAxis_smalls = d3
+          .axisBottom(xScale_smalls)
+          .tickFormat(d3.timeFormat("%Y/%m/%d"))
+          .ticks(7);
+        const yScale_smalls = d3
+          .scaleTime()
+          .domain(d3.extent(data, (d) => d.hour))
+          .range([margins.bottom, 300])
+          .nice(d3.timeDay);
+        var yAxis_smalls = d3
+          .axisLeft(yScale_smalls)
+          .tickFormat(d3.timeFormat("%H:%M"))
+          .ticks(10);
         console.log(data);
         console.log(clicked_svg.selectAll("circle").data(data));
-
+        // clicked_svg.selectAll("cir")
         clicked_svg
-
-          .selectAll("circle")
+          .select(".cirss")
+          .selectAll(".cir")
           .data(data)
           .join("circle")
-          .attr("class", "cir")
+          .attr("cx", (d) => xScale_smalls(d.date))
+          .attr("cy", (d) => yScale_smalls(d.hour) - 10);
+        // .attr("r")
+        // smallsvg.selectAll("circle").remove();
+        // clicked_svg
+        // .append("g")
+        // .attr("transform", `translate(10,0)`)
+        // .selectAll("circle")
+        // .data(data)
+        // .join("circle")
+        // .attr("class", "cir2")
 
-          .attr("cx", (d) => {
-            return xScale_small(d.date);
-          })
-          .attr("cy", (d) => yScale_small(d.hour) - 15);
+        // .attr("cx", (d) => {
+        //   return xScale_small(d.date) + 30;
+        // })
+        // .attr("cy", (d) => yScale_small(d.hour))
+        // .attr("r", 10.5);
 
-        clicked_svg
+        // clicked_svg
 
-          .selectAll("circle")
-          .data(data)
-          .join("circle")
-          .attr("class", "cir")
+        //   .selectAll("circle")
+        //   .data(data)
+        //   .join("circle")
+        //   .attr("class", "cir")
 
-          .attr("cx", (d) => {
-            return xScale_small(d.date);
-          })
-          .attr("cy", (d) => yScale_small(d.hour) - 15);
+        //   .attr("cx", (d) => {
+        //     return xScale_small(d.date);
+        //   })
+        //   .attr("cy", (d) => yScale_small(d.hour) - 15);
         clicked_svg
           .append("g")
           .attr("transform", `translate(0,${heights})`)
-          .call(xAxis_small)
+          .call(xAxis_smalls)
           .selectAll("text")
           .style("font-size", "15px");
-
+        clicked_svg
+          .append("g")
+          .attr("transform", `translate(50,-20)`)
+          .call(yAxis_smalls)
+          .selectAll("text")
+          .style("font-size", "15px");
         var arc1 = d3
           .arc()
           .innerRadius(7)
@@ -249,22 +285,23 @@ for (let i = 0; i < datas.length; i++) {
           .attr(
             "transform",
             (d) =>
-              `translate(${xScale_small(d.date) + 20},${
-                yScale_small(d.hour) - 15
+              `translate(${xScale_smalls(d.date) - 10},${
+                yScale_smalls(d.hour) - 20
               })`
           )
           .style("stroke-width", "2px")
           .style("opacity", 0.7);
         var arc2 = d3
           .arc()
-          .innerRadius(14)
-          .outerRadius(17)
+          .innerRadius(24)
+          .outerRadius(21)
           .startAngle(3)
           .endAngle(12);
 
         arcs
 
           .append("g")
+          .attr("transform", `translate(-30,-20)`)
           .classed("uncircle", true)
           .selectAll("path")
 
@@ -283,8 +320,8 @@ for (let i = 0; i < datas.length; i++) {
           .attr(
             "transform",
             (d) =>
-              `translate(${xScale_small(d.date) + 20},${
-                yScale_small(d.hour) + 5
+              `translate(${xScale_smalls(d.date) + 20},${
+                yScale_smalls(d.hour) + 5
               })`
           )
           .style("stroke-width", "2px")
@@ -298,26 +335,30 @@ for (let i = 0; i < datas.length; i++) {
         group2s
           // .classed("arrow", true)
           .append("g")
+          .attr("transform", `translate(-30,0)`)
           .classed("arrow", true)
+
           .selectAll("line")
+
           .data(data)
           .join("line")
-          .attr("x1", (d) => xScale_small(d.date) + 20)
-          .attr("y1", (d) => yScale_small(d.hour) + 23)
-          .attr("x2", (d) => xScale_small(d.date) + 20)
+          .attr("x1", (d) => xScale_smalls(d.date) + 20)
+          .attr("y1", (d) => yScale_smalls(d.hour) + 5)
+          .attr("x2", (d) => xScale_smalls(d.date) + 20)
           .attr("y2", (d) => 320)
           .attr("stroke-width", 2)
-          .style("stroke-dasharray", "5, 5");
+          .style("stroke", "5, 5");
         // .style("stroke", "gray");
         var left = group2s
           .append("g")
           .classed("arrow-right", true)
+          .attr("transform", `translate(-30,0)`)
           .selectAll("line")
           .data(data)
           .join("line")
-          .attr("x1", (d) => xScale_small(d.date) + 10)
+          .attr("x1", (d) => xScale_smalls(d.date) + 10)
           .attr("y1", 310)
-          .attr("x2", (d) => xScale_small(d.date) + 20)
+          .attr("x2", (d) => xScale_smalls(d.date) + 20)
           .attr("y2", (d) => 320)
           .attr("stroke-width", 2);
         // .style("stroke", "black");
@@ -325,20 +366,21 @@ for (let i = 0; i < datas.length; i++) {
         var right = group2s
           .append("g")
           .classed("arrow-left", true)
+          .attr("transform", `translate(-30,0)`)
           .selectAll("line")
           .data(data)
           .join("line")
-          .attr("x1", (d) => xScale_small(d.date) + 30)
+          .attr("x1", (d) => xScale_smalls(d.date) + 30)
           .attr("y1", 310)
-          .attr("x2", (d) => xScale_small(d.date) + 20)
+          .attr("x2", (d) => xScale_smalls(d.date) + 20)
 
           .attr("y2", (d) => 320)
           .attr("stroke-width", 2);
         // .style("stroke", "black");
         var arccir = d3
           .arc()
-          .innerRadius(14)
-          .outerRadius(17)
+          .innerRadius(7)
+          .outerRadius(10)
           .startAngle(3)
           .endAngle(12);
 
@@ -346,6 +388,7 @@ for (let i = 0; i < datas.length; i++) {
 
           .append("g")
           .classed("uncircle", true)
+          .attr("transform", `translate(-40,0)`)
           .selectAll("path")
 
           // .append("path")
@@ -364,21 +407,21 @@ for (let i = 0; i < datas.length; i++) {
           .attr(
             "transform",
             (d) =>
-              `translate(${xScale_small(d.date) + 20},${
-                yScale_small(d.hour) + 5
+              `translate(${xScale_smalls(d.date)},${
+                yScale_smalls(d.hour) + 15
               })`
           )
           .style("stroke-width", "2px")
           .style("opacity", 0.7);
         // if (!clicked_svg.selectAll("g").classList.contains("circle2")) {
-        clicked_svg
-          .append("g")
-          .classed("circle2", true)
+        // clicked_svg
+        //   .append("g")
+        //   .classed("circle2", true)
 
-          .attr("transform", "translate(60,0)")
-          .call(yAxis_small)
-          .selectAll("text")
-          .style("font-size", "15px");
+        //   .attr("transform", "translate(60,0)")
+        //   .call(yAxis_smalls)
+        //   .selectAll("text")
+        //   .style("font-size", "15px");
         // }
 
         for (i of d3.selectAll("section")) {
@@ -394,30 +437,45 @@ for (let i = 0; i < datas.length; i++) {
                 }
                 i.children[0].classList.add("small_block");
                 i.children[0].classList.remove("small_clicked");
-                xScale_small.range([margin.left * 8 + 5, width + margin.right]);
-                yScale_small.range([margin.bottom, height - margin.bottom]);
+                // xScale_small.range([margin.left * 8 + 5, width + margin.right]);
+                // yScale_small.range([margin.bottom, height - margin.bottom]);
+                let xScale_small = d3
+                  .scaleTime()
+                  .domain(d3.extent(data, (d) => d.date))
+                  .range([margin.left * 6 + 5, width])
+                  .nice();
+                // console.log(d3.extent(data, (d) => d.date));
+
+                let yScale_small = d3
+                  .scaleTime()
+                  .domain(d3.extent(data, (d) => d.hour))
+                  .range([margin.bottom, height])
+                  .nice(d3.timeDay);
                 var orgsvg = d3
                   .select(i.children[0])
                   .select("svg")
                   .attr("width", width + margin.left + margin.right)
                   .attr("height", height + margin.top + margin.bottom);
                 orgsvg
+
+                  .select(".cirss")
                   .selectAll("circle")
-                  .attr("class", "cir")
                   .data(data)
-                  .join("circle")
-                  .filter(
-                    (d, i) => d.time_observed_at != "" && i.common_name != ""
-                  )
-                  .attr("cx", (d) => {
-                    // console.log(xScale_small(d.date));
-                    return xScale_small(d.date);
-                  })
-                  .attr("cy", (d) => yScale_small(d.hour));
-                orgsvg
-                  .selectAll("circle")
-                  .attr("stroke", null)
-                  .attr("stroke-width", null);
+                  .attr("cx", (d) => xScale_small(d.date))
+                  .attr("cy", (d) => yScale_small(d.hour))
+                  .attr("fill", "red");
+                //   .attr("class", "cir")
+                //   .data(data)
+                //   .join("circle")
+                //   .filter(
+                //     (d, i) => d.time_observed_at != "" && i.common_name != ""
+                //   )
+                // .attr("cx", (d) => {
+                // console.log(xScale_small(d.date));
+                // return xScale_small(d.date);
+                // })
+                // .attr("cy", (d) => yScale_small(d.hour));
+
                 for (p of Array.from(orgsvg.selectAll("g"))) {
                   if (p.classList.contains("groups1")) {
                     p.remove();
@@ -501,7 +559,8 @@ for (let i = 0; i < datas.length; i++) {
 
       xScale_small.range([margins.left + 25, widths + margin.right]);
       smallsvg
-        .attr("transform", `translate(30,20)`)
+        // .attr("transform", `translate(30,20)`)
+        .attr("class", "cirss")
         .selectAll("circle")
         .data(data)
         .join("circle")
@@ -511,6 +570,7 @@ for (let i = 0; i < datas.length; i++) {
         })
         .attr("cy", (d) => yScale_small(d.hour))
         .attr("r", 10.5)
+        .attr("fill", "red")
         .on("mouseover", function (event, d) {
           div
             .attr("class", "tooltip")
@@ -579,10 +639,7 @@ for (let i = 0; i < datas.length; i++) {
               items.__data__.time_observed_at ==
               d3.select(this)._groups[0][0].__data__.time_observed_at
             ) {
-              items.setAttribute(
-                "style",
-                "stroke-dasharray: 5px, 5px; stroke: gray;"
-              );
+              items.setAttribute("style", "stroke: 5px, 5px; stroke: blue;");
             }
           });
 
@@ -603,10 +660,7 @@ for (let i = 0; i < datas.length; i++) {
               items.__data__.time_observed_at ==
               d3.select(this)._groups[0][0].__data__.time_observed_at
             ) {
-              items.setAttribute(
-                "style",
-                "stroke-dasharray: 5px, 5px; stroke: gray;"
-              );
+              items.setAttribute("style", "stroke: 5px, 5px; stroke: blue;");
             }
           });
 
@@ -627,10 +681,7 @@ for (let i = 0; i < datas.length; i++) {
               items.__data__.time_observed_at ==
               d3.select(this)._groups[0][0].__data__.time_observed_at
             ) {
-              items.setAttribute(
-                "style",
-                "stroke-dasharray: 5px, 5px; stroke: gray;"
-              );
+              items.setAttribute("style", "stroke: 5px, 5px; stroke: blue;");
             }
           });
 

@@ -64,8 +64,9 @@ function drawline() {
   formatTime = d3.timeFormat("%H:%M:%S");
 }
 
+// https://api.inaturalist.org/v1/observations/105593309,108630796,109373865
 d3.json(
-  "https://api.inaturalist.org/v1/observations?user_login=naturalist71914&year=2022&order=desc&order_by=created_at"
+  "https://api.inaturalist.org/v1/observations/105593309,108630796,109373865"
 ).then(function (d) {
   // datas = d.results;
   // console.log(datas[0]);
@@ -156,9 +157,9 @@ function showdata2(data) {
   // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
   var div = d3.select("body").append("div");
   var PI = Math.PI;
-  var arcMin = 75; // inner radius of the first arc
-  var arcWidth = 15; // width
-  var arcPad = 1; // padding between arcs
+  var arcMin = 155; // inner radius of the first arc
+  var arcWidth = 25; // width
+  var arcPad = 3; // padding between arcs
   var arc = d3
     .arc()
     .innerRadius(7)
@@ -187,14 +188,14 @@ function showdata2(data) {
     })
     .attr(
       "transform",
-      (d) => `translate(${xScale(d.date)},${yScale(d.hour) - 15})`
+      (d) => `translate(${xScale(d.date)},${yScale(d.hour) - 10})`
     )
     .style("stroke-width", "2px")
     .style("opacity", 0.7);
   var arc2 = d3
     .arc()
-    .innerRadius(14)
-    .outerRadius(17)
+    .innerRadius(24)
+    .outerRadius(21)
     .startAngle(3)
     .endAngle(12);
 
@@ -217,7 +218,10 @@ function showdata2(data) {
     .attr("stroke-width", function (d) {
       return d / 2;
     })
-    .attr("transform", (d) => `translate(${xScale(d.date)},${yScale(d.hour)})`)
+    .attr(
+      "transform",
+      (d) => `translate(${xScale(d.date)},${yScale(d.hour) - 5})`
+    )
     .style("stroke-width", "2px")
     .style("opacity", 0.7);
 
@@ -235,11 +239,11 @@ function showdata2(data) {
     .data(data)
     .join("line")
     .attr("x1", (d) => xScale(d.date))
-    .attr("y1", (d) => yScale(d.hour) + 18)
+    .attr("y1", (d) => yScale(d.hour) + 20)
     .attr("x2", (d) => xScale(d.date))
     .attr("y2", (d) => 320)
-    .attr("stroke-width", 2)
-    .style("stroke-dasharray", "5, 5");
+    .attr("stroke-width", 2);
+  // .style("stroke-dasharray", "5, 5");
   // .style("stroke", "gray");
 
   var left = groups
@@ -284,7 +288,7 @@ function showdata2(data) {
     .attr("class", "cir")
     .attr("cx", (d) => xScale(d.date))
     .attr("cy", (d) => yScale(d.hour))
-
+    .attr("fill", "red")
     .on("mouseover", function (event, d) {
       div
         .attr("class", "tooltip")
@@ -370,10 +374,7 @@ function showdata2(data) {
           items.__data__.time_observed_at ==
           d3.select(this)._groups[0][0].__data__.time_observed_at
         ) {
-          items.setAttribute(
-            "style",
-            "stroke-dasharray: 5px, 5px; stroke: gray;"
-          );
+          items.setAttribute("style", "stroke: 5px, 5px; stroke: blue;");
         }
       });
 
@@ -393,10 +394,7 @@ function showdata2(data) {
           items.__data__.time_observed_at ==
           d3.select(this)._groups[0][0].__data__.time_observed_at
         ) {
-          items.setAttribute(
-            "style",
-            "stroke-dasharray: 5px, 5px; stroke: gray;"
-          );
+          items.setAttribute("style", "stroke: 5px, 5px; stroke: blue;");
         }
       });
       var arrow3 = groups.select(".arrow-left").selectAll("line")._groups[0];
@@ -415,10 +413,7 @@ function showdata2(data) {
           items.__data__.time_observed_at ==
           d3.select(this)._groups[0][0].__data__.time_observed_at
         ) {
-          items.setAttribute(
-            "style",
-            "stroke-dasharray: 5px, 5px; stroke: gray;"
-          );
+          items.setAttribute("style", "stroke: 5px, 5px; stroke: blue;");
         }
       });
       // getcirs.attr("stroke", null).attr("stroke-width", null);
