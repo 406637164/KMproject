@@ -615,17 +615,23 @@ function showdata2(data) {
         [i.geojson.coordinates[1], i.geojson.coordinates[0]],
         13
       );
+
       console.log(map);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 18,
       }).addTo(map);
 
-      L.marker([i.geojson.coordinates[1], i.geojson.coordinates[0]])
-        .addTo(map)
-        .bindPopup(i.place_guess)
-        .openPopup();
+      var popup = L.popup()
+        .setLatLng([i.geojson.coordinates[1], i.geojson.coordinates[0]])
+        .setContent(i.place_guess)
+        .openOn(map);
+      function onMapClick(e) {
+        console.log(e);
 
+        popup.setLatLng(e.latlng).setContent(e.latlng.toString()).openOn(map);
+      }
+
+      map.on("click", onMapClick);
       Array.from(d3.select(main).select("#sampleid"))[0].textContent = i.id;
 
       var sectionss = Array.from(d3.selectAll(".small>div"));

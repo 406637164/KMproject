@@ -204,18 +204,28 @@ for (let i = 0; i < datas.length; i++) {
         //     return xScale_small(d.date);
         //   })
         //   .attr("cy", (d) => yScale_small(d.hour) - 15);
-        clicked_svg
-          .append("g")
-          .attr("transform", `translate(0,${heights})`)
-          .call(xAxis_smalls)
-          .selectAll("text")
-          .style("font-size", "15px");
-        clicked_svg
-          .append("g")
-          .attr("transform", `translate(50,-20)`)
-          .call(yAxis_smalls)
-          .selectAll("text")
-          .style("font-size", "15px");
+        // console.log(Array.from(clicked_svg.selectAll(".xaxis")));
+
+        // console.log(Array.from(clicked_svg.selectAll(".xaxis")).length);
+        clicked_svg.select(".yaxis").attr("display", "visible");
+        if (Array.from(clicked_svg.selectAll(".xaxis")).length == 0) {
+          clicked_svg
+            .append("g")
+            .attr("class", "xaxis")
+            .attr("transform", `translate(0,${heights})`)
+            .call(xAxis_smalls)
+            .selectAll("text")
+            .style("font-size", "15px");
+          clicked_svg
+            .append("g")
+            .attr("class", "yaxis")
+            .attr("transform", `translate(50,-20)`)
+
+            .call(yAxis_smalls)
+            .selectAll("text")
+            .style("font-size", "15px");
+        }
+
         var arc1 = d3
           .arc()
           .innerRadius(7)
@@ -476,15 +486,33 @@ for (let i = 0; i < datas.length; i++) {
                 // })
                 // .attr("cy", (d) => yScale_small(d.hour));
 
-                for (p of Array.from(orgsvg.selectAll("g"))) {
-                  if (p.classList.contains("groups1")) {
-                    p.remove();
+                for (q of Array.from(orgsvg.selectAll("g"))) {
+                  if (q.classList.contains("yaxis")) {
+                    // $(p).hide();
+
+                    d3.select(q).attr("display", "none");
+
+                    // console.log(p);
                   }
-                  for (r of Array.from(p.children)) {
-                    if (r.getAttribute("class") !== "cir") {
-                      r.remove();
-                    }
+                  if (q.classList.contains("groups1")) {
+                    q.remove();
                   }
+                  // for (r of Array.from(p.children)) {
+                  // if (r.getAttribute("class") !== "cir") {
+
+                  //   $(document).ready(function () {
+                  //     $(r).hide();
+                  //     console.log(r);
+                  //   });
+                  // }
+                  // if (p.classList.contains("xaxis")) {
+                  //   // console.log(p);
+                  //   $(document).ready(function () {
+                  //     $(p).hide();
+                  //   });
+                  // }
+
+                  // }
                 }
                 d3.select(i.children[0])
                   .select(".largerow")
@@ -925,10 +953,9 @@ for (let i = 0; i < datas.length; i++) {
             13
           );
           console.log(maps);
-          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          }).addTo(maps);
+          L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          ).addTo(maps);
 
           L.marker([i.geojson.coordinates[1], i.geojson.coordinates[0]])
             .addTo(maps)
