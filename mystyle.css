@@ -1,9 +1,12 @@
 * {
-  font-family: 微軟正黑體;
+  /* font-family: 微軟正黑體; */
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   background-color: #f3f3f3;
+  font-family: 'Catamaran', sans-serif;
+  font-family: 'Inter', sans-serif;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .cir {
@@ -707,4 +710,15 @@ line {
   position: absolute;
   transition: y2 0.5s linear 0.5s;
   transition-duration: 4s;
+}
+#mapid {
+  height: 230px;
+  width: 250px;
+}
+#mapid2 {
+  height: 230px;
+  width: 250px;
+}
+.leaflet-popup-content {
+  background-color: transparent;
 }

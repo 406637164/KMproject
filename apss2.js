@@ -843,11 +843,10 @@ for (let i = 0; i < datas.length; i++) {
                           <div class="photo_block_style"style="width: 345px;display:flex; flex-direction: column;">
                               
                                  <img src="https://static.inaturalist.org/photos/182181363/large.jpeg" alt="" width="100%" height="100%">
-                             
-                                 <div background-image: url("ina.png");  alt="" width="100px" height="100px"></div>
+                              
                               </div>
                               <div class="map_block_style" style="width: 345px;">
-                                  <img src="ina.png" alt="" width="100%" height="100%">
+                              <div style="width: 250px;height:230px"></div>
                               </div>
             
                               <div class="score_block_style" style="height: 100%;">
@@ -888,6 +887,76 @@ for (let i = 0; i < datas.length; i++) {
             i.time_observed_at;
           Array.from(d3.select(blocks).select("#sampleid"))[0].textContent =
             i.id;
+          function randStr(length) {
+            // result container
+            var result = [];
+
+            // characters pool
+            var chars =
+              "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            // create random string
+            for (var i = 0; i < length; i++) {
+              // get random position character
+              result.push(
+                chars.charAt(Math.floor(Math.random() * chars.length))
+              );
+            }
+
+            // return result
+            return result.join("");
+          }
+          const ids = randStr(8);
+          console.log(ids);
+
+          d3.select(blocks)
+            .select(".map_block_style>div")
+            .attr("id", ids)
+            .attr("height", "230px")
+            .attr("width", "230px");
+          // d3.select(blocks)
+          //   .select(ids)
+          //   .attr("height", "230px")
+          //   .attr("width", "230px");
+          console.log(d3.select(blocks).select(".map_block_style>div"));
+
+          var maps = L.map(ids).setView(
+            [i.geojson.coordinates[1], i.geojson.coordinates[0]],
+            13
+          );
+          console.log(maps);
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          }).addTo(maps);
+
+          L.marker([i.geojson.coordinates[1], i.geojson.coordinates[0]])
+            .addTo(maps)
+            .bindPopup(i.place_guess)
+            .openPopup();
+          // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          //   attribution:
+          //     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          // }).addTo(map);
+
+          // L.marker([i.geojson.coordinates[1], i.geojson.coordinates[0]])
+          //   .addTo(map)
+          //   .bindPopup(i.place_guess)
+          //   .openPopup();
+          //   [i.geojson.coordinates[1], i.geojson.coordinates[0]],
+          //   13
+          // );
+          // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          //   attribution:
+          //     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          // }).addTo(map);
+
+          // L.marker([i.geojson.coordinates[1], i.geojson.coordinates[0]])
+          //   .addTo(map)
+          //   .bindPopup(i.place_guess)
+          //   .openPopup();
+          // var osm = new L.TileLayer(osmUrl, { minZoom: 6, maxZoom: 16 });
+          // map.addLayer(osm);
 
           // var margins = { top: 40, right: 50, bottom: 40, left: 40 },
           //   widths = 1350 - margins.left - margins.right,

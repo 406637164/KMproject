@@ -565,10 +565,10 @@ function showdata2(data) {
                           
                              <img src="https://static.inaturalist.org/photos/182181363/large.jpeg" alt="" width="100%" height="100%">
                          
-                             <div background-image: url("ina.png");  alt="" width="100px" height="100px"></div>
+                         
                           </div>
                           <div class="map_block_style" style="width: 345px;">
-                              <img src="ina.png" alt="" width="100%" height="100%">
+                               <div  id="mapid"  alt="" width="100px" height="100px"></div>
                           </div>
         
                           <div class="score_block_style" style="height: 100%;">
@@ -607,6 +607,25 @@ function showdata2(data) {
         Array.from(d3.select(main).select("#times"))[0].textContent =
           i.time_observed_at;
       }
+      // console.log();
+      // console.log(i.geojson.coordinates[1]);
+      // console.log(i.geojson.coordinates);
+      // console.log(typeof 120.2658450231);
+      var map = L.map("mapid").setView(
+        [i.geojson.coordinates[1], i.geojson.coordinates[0]],
+        13
+      );
+      console.log(map);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      L.marker([i.geojson.coordinates[1], i.geojson.coordinates[0]])
+        .addTo(map)
+        .bindPopup(i.place_guess)
+        .openPopup();
+
       Array.from(d3.select(main).select("#sampleid"))[0].textContent = i.id;
 
       var sectionss = Array.from(d3.selectAll(".small>div"));
