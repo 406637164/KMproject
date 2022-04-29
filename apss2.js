@@ -6,19 +6,65 @@ const url = "https://api.inaturalist.org/v1/observations/80365";
 // function dataloaded(data) {
 //   showdata(data);
 // }
-datas = [
-  "https://api.inaturalist.org/v1/observations?user_login=xin883238&year=2022&order=desc&order_by=created_at",
-  "https://api.inaturalist.org/v1/observations?user_login=ssnp100&year=2022&order=desc&order_by=created_at",
-  "https://api.inaturalist.org/v1/observations?user_login=wairambar_rainforest&year=2022&order=desc&order_by=created_at",
-  "https://api.inaturalist.org/v1/observations?user_login=jeff314&year=2022&order=desc&order_by=created_at",
-  "https://api.inaturalist.org/v1/observations?user_login=michaelpatrickyoon&year=2022&order=desc&order_by=created_at",
-  "https://api.inaturalist.org/v1/observations?user_login=nikitacoppisetti&year=2022&order=desc&order_by=created_at",
-
-  "https://api.inaturalist.org/v1/observations?user_login=frankhuang1&year=2022&order=desc&order_by=created_at",
-  "https://api.inaturalist.org/v1/observations?user_login=naturalist25592500&year=2022&order=desc&order_by=created_at",
-  "https://api.inaturalist.org/v1/observations?user_login=wollihuang&year=2022&order=desc&order_by=created_at",
-  "https://api.inaturalist.org/v1/observations?user_login=naturalist3828&year=2022&order=desc&order_by=created_at",
-  "https://api.inaturalist.org/v1/observations?user_login=naturalist29475&year=2022&order=desc&order_by=created_at",
+var problems = [
+  [
+    {
+      Visual: "Sample too dry",
+      Photo: "Photo too moisure",
+      DNA: "Good",
+    },
+    { Photo: "", Visual: "", DNA: "" },
+  ],
+  [
+    { Photo: "", Visual: "", DNA: "" },
+    { Photo: "", Visual: "", DNA: "" },
+  ],
+  [
+    { Photo: "", Visual: "", DNA: "" },
+    { Photo: "", Visual: "", DNA: "" },
+    {
+      Visual: "Sample too dry",
+      Photo: "Sample too dry",
+      DNA: "Good",
+    },
+  ],
+  [
+    { Photo: "", Visual: "", DNA: "" },
+    { Photo: "", Visual: "", DNA: "" },
+    { Photo: "", Visual: "", DNA: "" },
+  ],
+  [
+    { Photo: "", Visual: "", DNA: "" },
+    { Photo: "", Visual: "", DNA: "" },
+  ],
+  [
+    { Photo: "", Visual: "", DNA: "" },
+    { Photo: "", Visual: "", DNA: "" },
+  ],
+  [
+    { Photo: "", Visual: "", DNA: "" },
+    { Photo: "", Visual: "", DNA: "" },
+  ],
+  [
+    { Photo: "", Visual: "", DNA: "" },
+    { Photo: "", Visual: "", DNA: "" },
+  ],
+  [
+    { Photo: "", Visual: "", DNA: "" },
+    { Photo: "Sample too moisure", Visual: "", DNA: "" },
+    { Photo: "", Visual: "", DNA: "" },
+  ],
+];
+var datas = [
+  "https://api.inaturalist.org/v1/observations/107962329,110522145",
+  "https://api.inaturalist.org/v1/observations/113298253,112452043",
+  "https://api.inaturalist.org/v1/observations/113298231,113184014,113183791",
+  "https://api.inaturalist.org/v1/observations/112166949,103694054,101404843",
+  "https://api.inaturalist.org/v1/observations/113298234,113298234",
+  "https://api.inaturalist.org/v1/observations/113138861,113138859",
+  "https://api.inaturalist.org/v1/observations/113214311,113214308",
+  "https://api.inaturalist.org/v1/observations/113216028,113205321",
+  "https://api.inaturalist.org/v1/observations/110507257,112615472,110500020",
 ];
 for (let i = 0; i < datas.length; i++) {
   d3.select("body").append("section").attr("id", i).attr("class", "small")
@@ -56,7 +102,7 @@ for (let i = 0; i < datas.length; i++) {
       data.forEach((d) => {
         d.date = new Date(d.time_observed_at);
         d.hour = formatTime(d.date);
-
+        // d.problem={"Visual":"too"}
         var parts = d.hour.split(/:/);
 
         var timePeriodMillis =
@@ -65,15 +111,34 @@ for (let i = 0; i < datas.length; i++) {
           parseInt(parts[2], 10) * 1000;
         d.hour = new Date();
         d.hour.setTime(todayMillis + timePeriodMillis);
+        // d.problem = problems[i];
+        // console.log(d);
       });
+      problems[i].forEach((p, l) => {
+        // console.log(data[l]);
+        // console.log(p);
+        data[l].problem = p;
+        // console.log(l);
+      });
+      // problems[i].forEach((p) => {
+
+      //   data.forEach((ds) => {
+      //     ds.problem = p;
+
+      //   });
+      // });
+      // console.log(data);
       // console.log(data[i]);
 
       let blocks = Array.from(d3.selectAll(".small"))[i];
       // console.log(data[i].user);
-
+      // console.log(data[0].user.login);
+      // console.log(data[i]);
+      // console.log(data[i].user);
+      console.log(datas);
       d3.select(blocks).select(".small_collector>p").node().textContent =
-        data[i].user.login;
-
+        data[0].user.login;
+      console.log(problems[i]);
       d3.select(blocks).select(".small_rank>p").node().textContent = i + 2;
       $(document).ready(function () {
         $(Array.from(d3.select(blocks).selectAll(".row_container1"))[1]).hide();
@@ -127,6 +192,7 @@ for (let i = 0; i < datas.length; i++) {
       let margins = { top: 40, right: 50, bottom: 40, left: 40 },
         widths = 1350 - margins.left - margins.right,
         heights = 360 - margins.top - margins.bottom;
+
       d3.select(blocks).on("click", function () {
         this.children[0].children[0].classList.add("row_container2");
         this.children[0].classList.remove("small_block");
@@ -175,6 +241,8 @@ for (let i = 0; i < datas.length; i++) {
           .selectAll(".cir")
           .data(data)
           .join("circle")
+          .transition()
+          .duration(1000)
           .attr("cx", (d) => xScale_smalls(d.date))
           .attr("cy", (d) => yScale_smalls(d.hour) - 10);
         // .attr("r")
@@ -213,6 +281,7 @@ for (let i = 0; i < datas.length; i++) {
             .append("g")
             .attr("class", "xaxis")
             .attr("transform", `translate(0,${heights})`)
+
             .call(xAxis_smalls)
             .selectAll("text")
             .style("font-size", "15px");
@@ -286,9 +355,41 @@ for (let i = 0; i < datas.length; i++) {
           .attr("d", arc1)
 
           .filter((d, i) => d.time_observed_at != "" && i.common_name != "")
-          .attr("fill", "red")
+          .attr("fill", (d) => {
+            if (
+              d.problem.DNA == "" &&
+              d.problem.Photo == "" &&
+              d.problem.Visual == ""
+            ) {
+              console.log(d);
+              return "transparent";
+            } else if (
+              d.problem.DNA != "" ||
+              d.problem.Photo != "" ||
+              d.problem.Visual != ""
+            ) {
+              return "red";
+            }
+          })
 
-          .attr("stroke", "red")
+          .attr("stroke", (d) => {
+            if (
+              d.problem.DNA == "" &&
+              d.problem.Photo == "" &&
+              d.problem.Visual == ""
+            ) {
+              console.log(d);
+              return "transparent";
+            } else if (
+              d.problem.DNA != "" ||
+              d.problem.Photo != "" ||
+              d.problem.Visual != ""
+            ) {
+              return "red";
+            }
+          })
+          .transition()
+          .duration(1000)
           .attr("stroke-width", function (d) {
             return d;
           })
@@ -352,6 +453,7 @@ for (let i = 0; i < datas.length; i++) {
 
           .data(data)
           .join("line")
+
           .attr("x1", (d) => xScale_smalls(d.date) + 20)
           .attr("y1", (d) => yScale_smalls(d.hour) + 5)
           .attr("x2", (d) => xScale_smalls(d.date) + 20)
@@ -366,6 +468,7 @@ for (let i = 0; i < datas.length; i++) {
           .selectAll("line")
           .data(data)
           .join("line")
+
           .attr("x1", (d) => xScale_smalls(d.date) + 10)
           .attr("y1", 310)
           .attr("x2", (d) => xScale_smalls(d.date) + 20)
@@ -449,16 +552,22 @@ for (let i = 0; i < datas.length; i++) {
                 i.children[0].classList.remove("small_clicked");
                 // xScale_small.range([margin.left * 8 + 5, width + margin.right]);
                 // yScale_small.range([margin.bottom, height - margin.bottom]);
+                var data2s = Array.from(
+                  d3.select(i).select(".cirss").selectAll("circle")
+                ).map((q) => q.__data__);
                 let xScale_small = d3
                   .scaleTime()
-                  .domain(d3.extent(data, (d) => d.date))
+                  .domain(d3.extent(data2s, (d) => d.date))
                   .range([margin.left * 6 + 5, width])
                   .nice();
                 // console.log(d3.extent(data, (d) => d.date));
+                // console.log(data);
+                // console.log(data2s);
+                // console.log(datas);
 
                 let yScale_small = d3
                   .scaleTime()
-                  .domain(d3.extent(data, (d) => d.hour))
+                  .domain(d3.extent(data2s, (d) => d.hour))
                   .range([margin.bottom, height])
                   .nice(d3.timeDay);
                 var orgsvg = d3
@@ -466,14 +575,32 @@ for (let i = 0; i < datas.length; i++) {
                   .select("svg")
                   .attr("width", width + margin.left + margin.right)
                   .attr("height", height + margin.top + margin.bottom);
+                console.log(data);
+
+                // d3.select(i).select(".cirss").selectAll("circle")._groups[0]
                 orgsvg
 
                   .select(".cirss")
                   .selectAll("circle")
-                  .data(data)
+                  .data(data2s)
                   .attr("cx", (d) => xScale_small(d.date))
                   .attr("cy", (d) => yScale_small(d.hour))
-                  .attr("fill", "red");
+                  .attr("fill", (d) => {
+                    console.log(d.problem);
+                    if (
+                      d.problem.DNA == "" &&
+                      d.problem.Photo == "" &&
+                      d.problem.Visual == ""
+                    ) {
+                      return "green";
+                    } else if (
+                      d.problem.DNA != "" ||
+                      d.problem.Photo != "" ||
+                      d.problem.Visual != ""
+                    ) {
+                      return "red";
+                    }
+                  });
                 //   .attr("class", "cir")
                 //   .data(data)
                 //   .join("circle")
@@ -598,21 +725,72 @@ for (let i = 0; i < datas.length; i++) {
         })
         .attr("cy", (d) => yScale_small(d.hour))
         .attr("r", 10.5)
-        .attr("fill", "red")
+        .attr("fill", (d) => {
+          if (
+            d.problem.DNA == "" &&
+            d.problem.Photo == "" &&
+            d.problem.Visual == ""
+          ) {
+            return "green";
+          } else if (
+            d.problem.DNA != "" ||
+            d.problem.Photo != "" ||
+            d.problem.Visual != ""
+          ) {
+            return "red";
+          }
+        })
         .on("mouseover", function (event, d) {
-          div
-            .attr("class", "tooltip")
-            .style("opacity", 0)
-            .transition()
-            .duration(200)
-            .style("opacity", 0.9)
-            .style("left", event.pageX + "px")
-            .style("top", event.pageY - 28 + "px");
-
-          div
-            .html(`${d.species_guess}</br>${d.date}</br>`)
-            .style("left", event.pageX + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
-            .style("top", event.pageY - 28 + "px");
+          // div
+          //   .attr("class", "tooltip")
+          //   .style("opacity", 0)
+          //   .transition()
+          //   .duration(200)
+          //   .style("opacity", 0.9)
+          //   .style("left", event.pageX + "px")
+          //   .style("top", event.pageY - 28 + "px");
+          console.log(d.problem.DNA);
+          if (
+            d.problem.DNA == "" &&
+            d.problem.Photo == "" &&
+            d.problem.Visual == ""
+          ) {
+            //妹問題的tooltip 綠色
+            div
+              .attr("class", "tooltip2")
+              .style("opacity", 0)
+              .transition()
+              .duration(200)
+              .style("opacity", 0.9)
+              .style("left", event.pageX + "px")
+              .style("top", event.pageY - 28 + "px");
+            div
+              .html(
+                `<div style="background-color:rgb(60, 201, 91);">${d.species_guess}</br>${d.date}</br></div>`
+              )
+              .style("left", event.pageX + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+              .style("top", event.pageY - 28 + "px");
+          } else if (
+            d.problem.DNA != "" ||
+            d.problem.Photo != "" ||
+            d.problem.Visual != ""
+          ) {
+            //有問題的tooltip 紅色
+            div
+              .attr("class", "tooltip")
+              .style("opacity", 0)
+              .transition()
+              .duration(200)
+              .style("opacity", 0.9)
+              .style("left", event.pageX + "px")
+              .style("top", event.pageY - 28 + "px");
+            div
+              .html(
+                `<div style="background-color:rgb(201, 60, 60);">${d.species_guess}</br>${d.date}</br>Visual:${d.problem.Visual}</br>Photo:${d.problem.Photo}</br>DNA:${d.problem.DNA}</div>`
+              )
+              .style("left", event.pageX + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+              .style("top", event.pageY - 28 + "px");
+          }
         })
         .on("mouseout", function (event, d) {
           div.transition().duration(100).style("opacity", 0);
@@ -752,8 +930,8 @@ for (let i = 0; i < datas.length; i++) {
                           <div class="quality_block_style" style="width:265px;" >
                        
                           <div class="quality_block" style="height: 100%;display:flex colomn;justify-content: center;align-items:flex-start;font-size: 1rem;">
-                              <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&#128337;<span id="times">55465</span></div>   
-                              <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">🆔<span id="sampleid">54654</span></div>   
+                              <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&nbsp&nbsp&#128337;<span id="times">55465</span></div>   
+                              <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&nbsp&nbsp🆔<span id="sampleid"></span></div>   
                                 </div>
                                
                                   
@@ -900,6 +1078,44 @@ for (let i = 0; i < datas.length; i++) {
             .select(".photo_block_style")
             .node()
             .children[0].setAttribute("src", i.photos[0].url);
+
+          //visual problem
+          console.log(i.problem.Photo);
+          console.log(i.problem.DNA);
+          console.log(i.problem.Visual);
+          var visual_problem = Array.from(
+            d3.select(blocks).selectAll(".problem_block_style")
+          )[0].children[0];
+          var Photo_problem = Array.from(
+            d3.select(blocks).selectAll(".problem_block_style")
+          )[0].children[1];
+          var DNA_problem = Array.from(
+            d3.select(blocks).selectAll(".problem_block_style")
+          )[0].children[2];
+          console.log(i);
+          console.log(i.problem);
+          if (i.problem.Visual == "") {
+            visual_problem.textContent = "Good";
+          } else if (i.problem.Visual != "") {
+            visual_problem.textContent = i.problem.Visual;
+          }
+          if (i.problem.DNA == "") {
+            DNA_problem.textContent = "Good";
+          } else if (i.problem.DNA != "") {
+            DNA_problem.textContent = i.problem.DNA;
+          }
+          if (i.problem.Photo == "") {
+            Photo_problem.textContent = "Good";
+          } else if (i.problem.Photo != "") {
+            Photo_problem.textContent = i.problem.Photo;
+          }
+
+          // if (i.problem.Photo == "") {
+          //   Photo_problem.textContent = "good";
+          // } else if (i.problem.Photo != "") {
+          //   Photo_problem.textContent = i.problem.Photo;
+          // }
+
           const small_speices = Array.from(
             d3.select(
               blocks.children[0].children[1].children[0].children[0].children[0]
@@ -937,11 +1153,8 @@ for (let i = 0; i < datas.length; i++) {
           const ids = randStr(8);
           console.log(ids);
 
-          d3.select(blocks)
-            .select(".map_block_style>div")
-            .attr("id", ids)
-            .attr("height", "230px")
-            .attr("width", "230px");
+          d3.select(blocks).select(".map_block_style>div").attr("id", ids);
+
           // d3.select(blocks)
           //   .select(ids)
           //   .attr("height", "230px")

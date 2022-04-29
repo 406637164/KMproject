@@ -4,11 +4,9 @@
   margin: 0;
   box-sizing: border-box;
   background-color: #f3f3f3;
-  font-family: "Catamaran", sans-serif;
-  font-family: "Inter", sans-serif;
-  font-family: "Kalam", cursive;
-  font-family: "Niramit", sans-serif;
-  font-family: "Quicksand", sans-serif;
+  font-family: Helvetica Neue, Helvetica, Arial, 文泉驛正黑, WenQuanYi Zen Hei,
+    Hiragino Sans GB, 儷黑 Pro, LiHei Pro, Heiti TC, 微軟正黑體,
+    Microsoft JhengHei UI, Microsoft JhengHei, sans-serif;
 }
 
 .cir {
@@ -648,22 +646,40 @@ div.tooltip {
   position: absolute;
   margin-left: 20px;
   margin-bottom: 20px;
-  text-align: center;
-  width: 250px;
+  text-align: left;
+  width: 270px;
   height: 200px;
   padding: 2px;
+  opacity: 0.5;
   font: 20px 標楷體;
 
-  color: black;
-  background-color: rgb(231, 177, 16);
+  color: white;
+  background-color: rgb(201, 60, 60);
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
 }
 .problem_text {
-  background-color: rgb(231, 177, 16);
+  background-color: rgb(201, 60, 60);
   color: red;
   font: 20px 標楷體;
+}
+div.tooltip2 {
+  position: absolute;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  width: 270px;
+  height: 200px;
+  padding: 2px;
+  opacity: 0.5;
+  font: 20px 標楷體;
+
+  color: white;
+  background-color: rgb(60, 201, 91);
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
 }
 .row_content1 {
   animation-name: example;
@@ -720,10 +736,10 @@ line {
   height: 230px;
   width: 250px;
 }
-#mapid2 {
+/* #mapid2 {
   height: 230px;
   width: 250px;
-}
+} */
 .leaflet-popup-content {
   background-color: transparent;
 }

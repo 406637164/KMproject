@@ -63,7 +63,21 @@ function drawline() {
   formatDay = d3.timeFormat("%Y/%m/%d ");
   formatTime = d3.timeFormat("%H:%M:%S");
 }
-
+var problem0 = [
+  [
+    {
+      Visual: "Sample too dry",
+      Photo: "Photo too moisure",
+      DNA: "Good",
+    },
+    { Photo: "", Visual: "", DNA: "" },
+    {
+      Visual: "Sample too moisure",
+      Photo: "Photo too moisure",
+      DNA: "Good",
+    },
+  ],
+];
 // https://api.inaturalist.org/v1/observations/105593309,108630796,109373865
 d3.json(
   "https://api.inaturalist.org/v1/observations/105593309,108630796,109373865"
@@ -111,6 +125,13 @@ function showdata2(data) {
     d.hour.setTime(todayMillis + timePeriodMillis);
     picuture = d.photos.map((d) => d.url);
     d.picuture = picuture[0];
+  });
+
+  problem0[0].forEach((p, l) => {
+    // console.log(data[l]);
+    // console.log(p);
+    data[l].problem = p;
+    // console.log(l);
   });
   var main_collector = d3
     .select("#main_collector")
@@ -180,9 +201,37 @@ function showdata2(data) {
     .attr("d", arc)
 
     .filter((d, i) => d.time_observed_at != "" && i.common_name != "")
-    .attr("fill", "red")
+    .attr("fill", (d) => {
+      if (
+        d.problem.DNA == "" &&
+        d.problem.Photo == "" &&
+        d.problem.Visual == ""
+      ) {
+        return "transparent";
+      } else if (
+        d.problem.DNA != "" ||
+        d.problem.Photo != "" ||
+        d.problem.Visual != ""
+      ) {
+        return "red";
+      }
+    })
 
-    .attr("stroke", "red")
+    .attr("stroke", (d) => {
+      if (
+        d.problem.DNA == "" &&
+        d.problem.Photo == "" &&
+        d.problem.Visual == ""
+      ) {
+        return "transparent";
+      } else if (
+        d.problem.DNA != "" ||
+        d.problem.Photo != "" ||
+        d.problem.Visual != ""
+      ) {
+        return "red";
+      }
+    })
     .attr("stroke-width", function (d) {
       return d;
     })
@@ -288,24 +337,79 @@ function showdata2(data) {
     .attr("class", "cir")
     .attr("cx", (d) => xScale(d.date))
     .attr("cy", (d) => yScale(d.hour))
-    .attr("fill", "red")
+    .attr("fill", (d) => {
+      if (
+        d.problem.DNA == "" &&
+        d.problem.Photo == "" &&
+        d.problem.Visual == ""
+      ) {
+        return "green";
+      } else if (
+        d.problem.DNA != "" ||
+        d.problem.Photo != "" ||
+        d.problem.Visual != ""
+      ) {
+        return "red";
+      }
+    })
     .on("mouseover", function (event, d) {
-      div
-        .attr("class", "tooltip")
-        .style("opacity", 0)
-        .transition()
-        .duration(200)
-        .style("opacity", 0.9)
-        .style("left", event.pageX + "px")
-        .style("top", event.pageY - 28 + "px");
-      div
-        .html(
-          `${d.species_guess}</br>${d.date}
-         
-         </br><p class="problem_text">${"Sample too dry"}</br>${"Photo too blurry"}</p> `
-        )
-        .style("left", event.pageX + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
-        .style("top", event.pageY - 28 + "px");
+      // div
+      //   .attr("class", "tooltip")
+      //   .style("opacity", 0)
+      //   .transition()
+      //   .duration(200)
+      //   .style("opacity", 0.9)
+      //   .style("left", event.pageX + "px")
+      //   .style("top", event.pageY - 28 + "px");
+      // div
+      //   .html(
+      //     `${d.species_guess}</br>${d.date}
+
+      //    </br><p class="problem_text">${"Sample too dry"}</br>${"Photo too blurry"}</p> `
+      //   )
+      //   .style("left", event.pageX + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+      //   .style("top", event.pageY - 28 + "px");
+      if (
+        d.problem.DNA == "" &&
+        d.problem.Photo == "" &&
+        d.problem.Visual == ""
+      ) {
+        //妹問題的tooltip 綠色
+        div
+          .attr("class", "tooltip2")
+          .style("opacity", 0)
+          .transition()
+          .duration(200)
+          .style("opacity", 0.9)
+          .style("left", event.pageX + "px")
+          .style("top", event.pageY - 28 + "px");
+        div
+          .html(
+            `<div style="background-color:rgb(60, 201, 91);">${d.species_guess}</br>${d.date}</br></div>`
+          )
+          .style("left", event.pageX + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+          .style("top", event.pageY - 28 + "px");
+      } else if (
+        d.problem.DNA != "" ||
+        d.problem.Photo != "" ||
+        d.problem.Visual != ""
+      ) {
+        //有問題的tooltip 紅色
+        div
+          .attr("class", "tooltip")
+          .style("opacity", 0)
+          .transition()
+          .duration(200)
+          .style("opacity", 0.9)
+          .style("left", event.pageX + "px")
+          .style("top", event.pageY - 28 + "px");
+        div
+          .html(
+            `<div style="background-color:rgb(201, 60, 60);">${d.species_guess}</br>${d.date}</br>Visual:${d.problem.Visual}</br>Photo:${d.problem.Photo}</br>DNA:${d.problem.DNA}</div>`
+          )
+          .style("left", event.pageX + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+          .style("top", event.pageY - 28 + "px");
+      }
     })
     .on("mouseout", function (event, d) {
       div.transition().duration(100).style("opacity", 0);
@@ -445,8 +549,8 @@ function showdata2(data) {
                       <div class="quality_block_style" style="width:264px;" >
                    
                           <div class="quality_block" style="height: 100%;display:flex colomn;justify-content: center;align-items:flex-start;font-size: 1rem;">
-                             <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&#128337;<span id="times">55465</span></div>   
-                             <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">🆔<span id="sampleid">54654</span></div>   
+                             <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&nbsp&nbsp&#128337;<span id="times">55465</span></div>   
+                             <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&nbsp&nbsp🆔<span id="sampleid">54654</span></div>   
                             </div>
                            
                               
@@ -607,6 +711,32 @@ function showdata2(data) {
         Array.from(d3.select(main).select("#times"))[0].textContent =
           i.time_observed_at;
       }
+
+      var main_visual_problem = Array.from(
+        d3.select(main).selectAll(".problem_block_style")
+      )[0].children[0];
+      var main_Photo_problem = Array.from(
+        d3.select(main).selectAll(".problem_block_style")
+      )[0].children[1];
+      var main_DNA_problem = Array.from(
+        d3.select(main).selectAll(".problem_block_style")
+      )[0].children[2];
+
+      if (i.problem.Visual == "") {
+        main_visual_problem.textContent = "Good";
+      } else if (i.problem.Visual != "") {
+        main_visual_problem.textContent = i.problem.Visual;
+      }
+      if (i.problem.DNA == "") {
+        main_DNA_problem.textContent = "Good";
+      } else if (i.problem.DNA != "") {
+        main_DNA_problem.textContent = i.problem.DNA;
+      }
+      if (i.problem.Photo == "") {
+        main_Photo_problem.textContent = "Good";
+      } else if (i.problem.Photo != "") {
+        main_Photo_problem.textContent = i.problem.Photo;
+      }
       // console.log();
       // console.log(i.geojson.coordinates[1]);
       // console.log(i.geojson.coordinates);
@@ -693,10 +823,17 @@ function showdata2(data) {
             if (p.classList.contains("groups1")) {
               console.log(p.remove());
             }
-            for (r of Array.from(p.children)) {
-              if (r.getAttribute("class") !== "cir") {
-                r.remove();
-              }
+            // for (r of Array.from(p.children)) {
+            //   if (r.getAttribute("class") !== "cir") {
+            //     r.remove();
+            //   }
+            // }
+            if (p.classList.contains("yaxis")) {
+              // $(p).hide();
+
+              d3.select(p).attr("display", "none");
+
+              // console.log(p);
             }
           }
         }
