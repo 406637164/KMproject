@@ -546,7 +546,7 @@ function showdata2(data) {
                 <div class="detail_content" style="width: 100%; height:470px  ">
                   <div class="row_content1" style="width: 1840px;justify-content:flex-start">
         
-                      <div class="quality_block_style" style="width:264px;" >
+                      <div class="quality_block_style" style="width:253px;" >
                    
                           <div class="quality_block" style="height: 100%;display:flex colomn;justify-content: center;align-items:flex-start;font-size: 1rem;">
                              <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&nbsp&nbsp&#128337;<span id="times">55465</span></div>   
@@ -555,7 +555,7 @@ function showdata2(data) {
                            
                               
                            </div>
-                    <div class="quality_block_style" style="width: 150px;" >
+                    <div class="quality_block_style" style="width: 125px;" >
                    
                       <div class="quality_block" style="height: 100%;">
                           <span>Quality</span>
@@ -565,7 +565,7 @@ function showdata2(data) {
                           
                        </div>
                      
-                       <div class="quality_block_style" style="width: 325px;" >
+                       <div class="quality_block_style" style="width: 306px;" >
                    
                         <div class="quality_block" style="height: 100%;">
                             <span>Problem</span>
@@ -574,7 +574,7 @@ function showdata2(data) {
                          
                             
                          </div>
-                         <div class="quality_block_style" style="width: 325px;" >
+                         <div class="quality_block_style" style="width: 310px;" >
                    
                           <div class="quality_block" style="height: 100%;">
                               <span> Method to Improve
@@ -584,7 +584,16 @@ function showdata2(data) {
                            
                               
                            </div>
-                           <div class="quality_block_style" style="width: 325px;" >
+                           <div class="quality_block_style" style="width: 95px;" >
+                   
+                           <div class="quality_block" style="height: 100%;">
+                               <span>More Details</span>
+                               
+                             </div>
+                            
+                               
+                            </div>
+                           <div class="quality_block_style" style="width: 308px;" >
                    
                             <div class="quality_block" style="height: 100%;">
                                 <span>Photo</span>
@@ -593,7 +602,8 @@ function showdata2(data) {
                              
                                 
                              </div>
-                             <div class="quality_block_style" style="width: 325px;" >
+                           
+                             <div class="quality_block_style" style="width: 308px;" >
                    
                               <div class="quality_block" style="height: 100%;">
                                   <span> Map </span>
@@ -602,7 +612,7 @@ function showdata2(data) {
                                
                                   
                                </div>
-                               <div class="quality_block_style" style="width: 141px;" >
+                               <div class="quality_block_style" style="width: 135px;" >
                    
                                 <div class="quality_block" style="height: 100%;">
                                     <span>Score</span>
@@ -626,7 +636,7 @@ function showdata2(data) {
                        
                           
                        </div>
-                      <div class="quality_block_style" style="width: 160px;" >
+                      <div class="quality_block_style" style="width: 140px;" >
                           <div class="quality_block"   >
                               <span>Visual</span>
                               
@@ -639,6 +649,7 @@ function showdata2(data) {
                             </div>  
                             
                       </div>
+                      
                       <div class="problem_block_style" style="width: 345px;">
                           <div class="detail_container" >
                               <span>Sample too dry</span>
@@ -664,7 +675,36 @@ function showdata2(data) {
                               <span>good</span>
                             </div>   
                       </div>
-               
+                      <div class="problem_block_style" style="width: 105px;">
+                      <div class="detail_container" >
+                      <button class="show-modal">More Visual Problem</button>
+                          
+                        </div>
+                        <div class="detail_container" >
+                        <button class="show-modal">More Photo Problem</button>
+                        </div>
+                        <div class="detail_container" >
+                        <button class="show-modal">More DNA Problem</button>
+                        </div>   
+
+                        <div class="modal hidden">
+      <button class="close-modal">&times;</button>
+      <h1>I'm a modal window 😍</h1>
+      <div class="detail_visual">
+        <h3>visual problem</h3>
+        <div>
+         good
+        </div>
+        <h3>visual to improve</h3>
+        <div>
+        need to more moisture
+       </div>
+      </div>
+      
+   
+    </div>
+    <div class="overlay hidden"></div>
+                  </div>
                       <div class="photo_block_style"style="width: 345px;display:flex; flex-direction: column;">
                           
                              <img src="https://static.inaturalist.org/photos/182181363/large.jpeg" alt="" width="100%" height="100%">
@@ -746,6 +786,50 @@ function showdata2(data) {
         13
       );
 
+      const modal = document.querySelector(".modal");
+      const overlay = document.querySelector(".overlay");
+      const btnCloseModal = document.querySelector(".close-modal");
+      const btnsOpenModal = document.querySelectorAll(".show-modal");
+
+      const openModal = function (detailProblemTitle) {
+        $(document).ready(function () {
+          $(modal).removeClass("hidden");
+          $(overlay).removeClass("hidden");
+          $(modal).children()[1].textContent = detailProblemTitle;
+          console.log(detailProblemTitle);
+        });
+        // modal.classList.remove("hidden");
+        // overlay.classList.remove("hidden");
+      };
+
+      const closeModal = function () {
+        modal.classList.add("hidden");
+        overlay.classList.add("hidden");
+      };
+
+      for (let i = 0; i < btnsOpenModal.length; i++)
+        btnsOpenModal[i].addEventListener("click", (d) => {
+          console.log(btnsOpenModal[i]);
+          var detailProblemTitle = btnsOpenModal[i].textContent;
+          if (detailProblemTitle == "More Visual Problem") {
+            openModal(detailProblemTitle);
+          } else if (detailProblemTitle == "More Photo Problem") {
+            openModal(detailProblemTitle);
+          } else if (detailProblemTitle == "More DNA Problem") {
+            openModal(detailProblemTitle);
+          }
+        });
+
+      btnCloseModal.addEventListener("click", closeModal);
+      overlay.addEventListener("click", closeModal);
+
+      document.addEventListener("keydown", function (e) {
+        // console.log(e.key);
+
+        if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+          closeModal();
+        }
+      });
       console.log(map);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 18,

@@ -749,7 +749,7 @@ for (let i = 0; i < datas.length; i++) {
           //   .style("opacity", 0.9)
           //   .style("left", event.pageX + "px")
           //   .style("top", event.pageY - 28 + "px");
-          console.log(d.problem.DNA);
+
           if (
             d.problem.DNA == "" &&
             d.problem.Photo == "" &&
@@ -927,68 +927,78 @@ for (let i = 0; i < datas.length; i++) {
                     <div class="detail_content" style="width: 100%; height:470px  ">
                       <div class="row_content1" style="width: 1840px;justify-content:flex-start">
             
-                          <div class="quality_block_style" style="width:265px;" >
+                      <div class="quality_block_style" style="width:250px;" >
+                   
+                      <div class="quality_block" style="height: 100%;display:flex colomn;justify-content: center;align-items:flex-start;font-size: 1rem;">
+                         <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&nbsp&nbsp&#128337;<span id="times">55465</span></div>   
+                         <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&nbsp&nbsp🆔<span id="sampleid">54654</span></div>   
+                        </div>
                        
-                          <div class="quality_block" style="height: 100%;display:flex colomn;justify-content: center;align-items:flex-start;font-size: 1rem;">
-                              <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&nbsp&nbsp&#128337;<span id="times">55465</span></div>   
-                              <div  style="display:flex;justify-content: center;align-items:center;background-color:white;">&nbsp&nbsp🆔<span id="sampleid"></span></div>   
-                                </div>
-                               
-                                  
-                               </div>
-                        <div class="quality_block_style" style="width: 150px;" >
+                          
+                       </div>
+                <div class="quality_block_style" style="width: 141px;" >
+               
+                  <div class="quality_block" style="height: 100%;">
+                      <span>Quality</span>
+                      
+                    </div>
+                   
+                      
+                   </div>
+                 
+                   <div class="quality_block_style" style="width: 310px;" >
+               
+                    <div class="quality_block" style="height: 100%;">
+                        <span>Problem</span>
+                        
+                      </div>
+                     
+                        
+                     </div>
+                     <div class="quality_block_style" style="width: 310px;" >
+               
+                      <div class="quality_block" style="height: 100%;">
+                          <span> Method to Improve
+                          </span>
+                          
+                        </div>
                        
+                          
+                       </div>
+                       <div class="quality_block_style" style="width: 95px;" >
+               
+                       <div class="quality_block" style="height: 100%;">
+                           <span>More Details</span>
+                           
+                         </div>
+                        
+                           
+                        </div>
+                       <div class="quality_block_style" style="width: 308px;" >
+               
+                        <div class="quality_block" style="height: 100%;">
+                            <span>Photo</span>
+                            
+                          </div>
+                         
+                            
+                         </div>
+                       
+                         <div class="quality_block_style" style="width: 308px;" >
+               
                           <div class="quality_block" style="height: 100%;">
-                              <span>Quality</span>
+                              <span> Map </span>
                               
                             </div>
                            
                               
                            </div>
-                         
-                           <div class="quality_block_style" style="width: 325px;" >
-                       
+                           <div class="quality_block_style" style="width: 135px;" >
+               
                             <div class="quality_block" style="height: 100%;">
-                                <span>Problem</span>
+                                <span>Score</span>
                                 
                               </div>
-                             
-                                
-                             </div>
-                             <div class="quality_block_style" style="width: 325px;" >
-                       
-                              <div class="quality_block" style="height: 100%;">
-                                  <span> Method to Improve
-                                  </span>
-                                  
-                                </div>
-                               
-                                  
-                               </div>
-                               <div class="quality_block_style" style="width: 325px;" >
-                       
-                                <div class="quality_block" style="height: 100%;">
-                                    <span>Photo</span>
-                                    
-                                  </div>
-                                 
-                                    
-                                 </div>
-                                 <div class="quality_block_style" style="width: 325px;" >
-                       
-                                  <div class="quality_block" style="height: 100%;">
-                                      <span> Map </span>
-                                      
-                                    </div>
-                                   
-                                      
-                                   </div>
-                                   <div class="quality_block_style" style="width: 141px;" >
-                       
-                                    <div class="quality_block" style="height: 100%;">
-                                        <span>Score</span>
-                                        
-                                      </div>
                                      
                                         
                                      </div>
@@ -1045,7 +1055,34 @@ for (let i = 0; i < datas.length; i++) {
                                   <span>good</span>
                                 </div>   
                           </div>
-                   
+                          <div class="problem_block_style" style="width: 105px;">
+                          <div class="detail_container" >
+                          <button class="show-modal">More Visual Problem</button>
+                              
+                            </div>
+                            <div class="detail_container" >
+                            <button class="show-modal">More Photo Problem</button>
+                            </div>
+                            <div class="detail_container" >
+                            <button class="show-modal">More DNA Problem</button>
+                            </div>   
+    
+                            <div class="modal hidden">
+          <button class="close-modal">&times;</button>
+          <h1>I'm a modal window 😍</h1>
+          <div class="detail_visual">
+        <h3>visual problem</h3>
+        <div>
+         good
+        </div>
+        <h3>visual to improve</h3>
+        <div>
+        need to more moisture
+       </div>
+      </div>
+        </div>
+        <div class="overlay hidden"></div>
+                      </div>
                           <div class="photo_block_style"style="width: 345px;display:flex; flex-direction: column;">
                               
                                  <img src="https://static.inaturalist.org/photos/182181363/large.jpeg" alt="" width="100%" height="100%">
@@ -1083,6 +1120,51 @@ for (let i = 0; i < datas.length; i++) {
           console.log(i.problem.Photo);
           console.log(i.problem.DNA);
           console.log(i.problem.Visual);
+          console.log(blocks.querySelector(".modal"));
+          const modal = blocks.querySelector(".modal");
+          const overlay = blocks.querySelector(".overlay");
+          const btnCloseModal = blocks.querySelector(".close-modal");
+          const btnsOpenModal = blocks.querySelectorAll(".show-modal");
+
+          const openModal = function (detailProblemTitle) {
+            $(document).ready(function () {
+              $(modal).removeClass("hidden");
+              $(overlay).removeClass("hidden");
+              $(modal).children()[1].textContent = detailProblemTitle;
+              console.log($(modal));
+            });
+            // modal.classList.remove("hidden");
+            // overlay.classList.remove("hidden");
+          };
+
+          const closeModal = function () {
+            modal.classList.add("hidden");
+            overlay.classList.add("hidden");
+          };
+
+          for (let i = 0; i < btnsOpenModal.length; i++)
+            btnsOpenModal[i].addEventListener("click", (d) => {
+              console.log(btnsOpenModal[i]);
+              var detailProblemTitle = btnsOpenModal[i].textContent;
+              if (detailProblemTitle == "More Visual Problem") {
+                openModal(detailProblemTitle);
+              } else if (detailProblemTitle == "More Photo Problem") {
+                openModal(detailProblemTitle);
+              } else if (detailProblemTitle == "More DNA Problem") {
+                openModal(detailProblemTitle);
+              }
+            });
+
+          btnCloseModal.addEventListener("click", closeModal);
+          overlay.addEventListener("click", closeModal);
+
+          document.addEventListener("keydown", function (e) {
+            // console.log(e.key);
+
+            if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+              closeModal();
+            }
+          });
           var visual_problem = Array.from(
             d3.select(blocks).selectAll(".problem_block_style")
           )[0].children[0];
