@@ -1057,14 +1057,14 @@ for (let i = 0; i < datas.length; i++) {
                           </div>
                           <div class="problem_block_style" style="width: 105px;">
                           <div class="detail_container" >
-                          <button class="show-modal">More Visual Problem</button>
+                          <button class="show-modal">More Visual Details</button>
                               
                             </div>
                             <div class="detail_container" >
-                            <button class="show-modal">More Photo Problem</button>
+                            <button class="show-modal">More Photo Details</button>
                             </div>
                             <div class="detail_container" >
-                            <button class="show-modal">More DNA Problem</button>
+                            <button class="show-modal">More DNA Details</button>
                             </div>   
     
                             <div class="modal hidden">
@@ -1146,11 +1146,11 @@ for (let i = 0; i < datas.length; i++) {
             btnsOpenModal[i].addEventListener("click", (d) => {
               console.log(btnsOpenModal[i]);
               var detailProblemTitle = btnsOpenModal[i].textContent;
-              if (detailProblemTitle == "More Visual Problem") {
+              if (detailProblemTitle == "More Visual Details") {
                 openModal(detailProblemTitle);
-              } else if (detailProblemTitle == "More Photo Problem") {
+              } else if (detailProblemTitle == "More Photo Details") {
                 openModal(detailProblemTitle);
-              } else if (detailProblemTitle == "More DNA Problem") {
+              } else if (detailProblemTitle == "More DNA Details") {
                 openModal(detailProblemTitle);
               }
             });

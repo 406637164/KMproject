@@ -54,7 +54,7 @@
   
       <div style="display: flex">
         
-        <form style="width: 1850px; margin: 20px"  action="/add_sample" method="post">
+        <form style="width: 1850px; margin: 20px"  action="api/add" method="post">
           
           <div class="form-group" style="width:850px" >
           
@@ -73,7 +73,7 @@
                 type="text"
                 class="form-control"
                 aria-label="Large"
-             
+                id="user"
                 aria-describedby="inputGroup-sizing-sm" 
                 
               />
@@ -93,6 +93,7 @@
                 type="text"
                 class="form-control"
                 aria-label="Large"
+                id="sampleid"
                 aria-describedby="inputGroup-sizing-sm" 
                
               />
@@ -108,9 +109,9 @@
       <div style="height:50px ;">
         <select class="form-select" aria-label="Default select example">
         
-          <option value="1">Visual 問題</option>
-          <option value="2">Photo 問題</option>
-          <option value="3">DNA 問題</option>
+          <option value="Visual">Visual 問題</option>
+          <option value="Photo">Photo 問題</option>
+          <option value="DNA">DNA 問題</option>
         </select>
       </div>
     
@@ -125,14 +126,14 @@
            
               <div style="margin-right:20px">
                 <label for="exampleFormControlSelect1" style="display: flex;margin-right:20px">問題描述(短)</label>
-                <input type="text" maxlength="50">
+                <input type="text" class="shortproblem"  name="shortproblem" maxlength="50">
               </div>
               <div>
-                <label for="exampleFormControlSelect1"  style="margin-right:20px;">問題描述(長)</label>
+                <label for="exampleFormControlSelect1"    style="margin-right:20px;">問題描述(長)</label>
              
                 <textarea  maxlength="50"
                 class="form-control"
-                name="visuallong"
+                name="longproblem"
                 id="exampleFormControlTextarea1"
                 rows="3"
                 style="width: 600px;"
@@ -142,10 +143,7 @@
           </div>
         </div>
        
-   
-     
-   <section>
-
+    
     
   </div>
   <div style="margin: 10px;">
@@ -159,14 +157,14 @@
    
       <div style="margin-right:20px">
         <label for="exampleFormControlSelect1" style="display: flex;margin-right:20px">改善建議(短)</label>
-        <input type="text" maxlength="50">
+        <input type="text" name="adviseshort" class="adviseshort" maxlength="50">
       </div>
       <div>
         <label for="exampleFormControlSelect1"  style="margin-right:20px;">改善建議(長)</label>
      
         <textarea  maxlength="50"
-        class="form-control"
-        name="visuallong"
+        class="form-control adviselong"
+        name="adviseshort"
         id="exampleFormControlTextarea1"
         rows="3"
         style="width: 600px;"
@@ -191,7 +189,7 @@
      
  <hr style="border: 1px solid black;">
    <input class="btn btn-primary add_one" type="button"  value="增加樣本問題" />
-          <input class="btn btn-primary" type="submit" value="提交" />
+          <input class="btn btn-primary" type="button" id="submit" value="提交" />
       
     </form>
   
@@ -210,7 +208,7 @@
          
             <div style="margin-right:20px">
               <label for="exampleFormControlSelect1" style="display: flex;margin-right:20px">問題描述(短)</label>
-              <input type="text" maxlength="50">
+              <input type="text" maxlength="50" class="shortproblem">
             </div>
             <div>
               <label for="exampleFormControlSelect1"  style="margin-right:20px;">問題描述(長)</label>
@@ -233,25 +231,27 @@
       });
     
       $(".add_advice").click(function(){    
-        $(`    
+        $(`    <div>
           <div  style="display: flex;margin-right:20px;width:500px">
          
             <div style="margin-right:20px">
               <label for="exampleFormControlSelect1" style="display: flex;margin-right:20px">改善建議(短)</label>
-              <input type="text" maxlength="50">
+              <input type="text" class="adviseshort" name="adviseshort" maxlength="50">
             </div>
             <div>
               <label for="exampleFormControlSelect1"  style="margin-right:20px;">改善建議(長)</label>
            
               <textarea  maxlength="50"
-              class="form-control"
-              name="visuallong"
+              class="form-control adviselong"
+              name="adviseshlong"
               style="width: 600px;"
               id="exampleFormControlTextarea1"
               rows="3"
             ></textarea>
             </div>       
           </div>
+        </div>
+          
          `).appendTo($(this).parent().prev())
 
        
@@ -272,9 +272,9 @@
           <div style="height:50px ;">
             <select class="form-select" aria-label="Default select example">
        
-              <option value="1">Visual 問題</option>
-              <option value="2">Photo 問題</option>
-              <option value="3">DNA 問題</option>
+              <option value="Visual">Visual 問題</option>
+              <option value="Photo">Photo 問題</option>
+              <option value="DNA">DNA 問題</option>
             </select>
           </div>
         
@@ -288,15 +288,15 @@
                 <div class="problems" style="display: flex;margin-right:20px;width:1800px">
                
                   <div style="margin-right:20px">
-                    <label for="exampleFormControlSelect1" style="display: flex;margin-right:20px">問題描述(短)</label>
-                    <input type="text" maxlength="50">
+                    <label for="exampleFormControlSelect1" name="shortproblem" style="display: flex;margin-right:20px">問題描述(短)</label>
+                    <input type="text" class="shortproblem" maxlength="50">
                   </div>
                   <div>
                     <label for="exampleFormControlSelect1"  style="margin-right:20px;">問題描述(長)</label>
                  
                     <textarea  maxlength="50"
                     class="form-control"
-                    name="visuallong"
+                    name="longproblem"
                     style="width: 600px;"
                     id="exampleFormControlTextarea1"
                     rows="3"
@@ -307,8 +307,7 @@
             </div>
            
        
-         
-       <section>
+    
     
         
       </div>
@@ -317,21 +316,23 @@
       <div style="margin: 10px;">
         <input class="btn btn-primary problem_add" type="button"   value="增加問題描述" />
       </div>
+      <hr >
       <h3>改善建議</h3>
+    
     <div>
       <div class="advice_block">
         <div  style="display: flex;margin-right:20px;width:500px">
        
           <div style="margin-right:20px">
             <label for="exampleFormControlSelect1" style="display: flex;margin-right:20px">改善建議(短)</label>
-            <input type="text" maxlength="50">
+            <input type="text" maxlength="50" name="adviseshort" class="adviseshort">
           </div>
           <div>
             <label for="exampleFormControlSelect1"  style="margin-right:20px;">改善建議(長)</label>
          
             <textarea  maxlength="50"
-            class="form-control"
-            name="visuallong"
+            class="form-control adviselong"
+            name="longproblem"
             style="width: 600px;"
             id="exampleFormControlTextarea1"
             rows="3"
@@ -358,10 +359,10 @@
          
             <div style="margin-right:20px">
               <label for="exampleFormControlSelect1" style="display: flex;margin-right:20px">問題描述(短)</label>
-              <input type="text" maxlength="50">
+              <input type="text" maxlength="50" name="shortproblem" class="shortproblem">
             </div>
             <div>
-              <label for="exampleFormControlSelect1"  style="margin-right:20px;">問題描述(長)</label>
+              <label for="exampleFormControlSelect1" name="longproblem"  style="margin-right:20px;">問題描述(長)</label>
            
               <textarea  maxlength="50"
               class="form-control"
@@ -383,24 +384,24 @@
        
       })
 
-      var addOtherAdvise=$(d3.select(is).node()[4].children[0].children[1].children[0]).parent().next().next().next().next().children()[0]
-     // var addOtherAdviseblock=$(d3.select(is).node()[4].children[0].children[1].children[0]).parent().next().next().next()
-      
+      var addOtherAdvise=$(d3.select(is).node()[4].children[0].children[1].children[0]).parent().next().next().next().next().next().children()[0]
+ 
       d3.select(addOtherAdvise).on("click",function(){
         $(`    
-        <div class="problem_block">
+       
+        <div class="advice_block">
           <div class="problems" style="display: flex;margin-right:20px;width:500px">
          
             <div style="margin-right:20px">
-              <label for="exampleFormControlSelect1" style="display: flex;margin-right:20px">問題描述(短)</label>
-              <input type="text" maxlength="50">
+              <label for="exampleFormControlSelect1" name="shortproblem" style="display: flex;margin-right:20px">改善建議(短)</label>
+              <input type="text" class="adviseshort" maxlength="50">
             </div>
             <div>
-              <label for="exampleFormControlSelect1"  style="margin-right:20px;">問題描述(長)</label>
+              <label for="exampleFormControlSelect1" name="longproblem"  style="margin-right:20px;">改善建議(長)</label>
            
               <textarea  maxlength="50"
-              class="form-control"
-              name="visuallong"
+              class="form-control adviselong"
+              name="longproblem"
               style="width: 600px;"
               id="exampleFormControlTextarea1"
               rows="3"
@@ -412,7 +413,7 @@
         
      
         </div>
-            `).appendTo($(d3.select(is).node()[4].children[0].children[1].children[0]).parent().next().next().next() )
+            `).appendTo($(d3.select(is).node()[4].children[0].children[1].children[0]).parent().next().next().next().next() )
      
        
        
@@ -422,9 +423,126 @@
    
        
        
-  
-      } );
      
+      } );
+     var arrs=[]
+     var arrss=[]
+     var arrsss=[]
+     var arrs2={}
+      $("#submit") .click(function() {
+       
+        console.log($(".form-select").val())
+        for(k of $(".form-select")){
+         if($(k).val()=="Visual"){
+        
+          var ploblock=$(k).parent().parent().next()
+          console.log(ploblock)
+  
+          var a1=Array.from($(ploblock).children()) 
+          console.log(a1)
+          a1.forEach(d=>{
+            console.log(d)
+            datas={}
+            var vis={}
+          
+            console.log(    d3.select(d).select(".shortproblem").node().value)
+          
+            datas.Problem_short=d3.select(d).select(".shortproblem").node().value
+            
+               
+            datas.Problem_long=d3.select(d).select(".form-control").node().value
+            vis.problem = datas
+            console.log(    d3.select(d).select(".form-control").node().value)
+            arrs.push(vis)
+         
+          })
+         
+          var adviceblock=$(k).parent().parent().next().next() .next() .next() .next() .children()
+          console.log(Array.from(adviceblock) )
+         Array.from(adviceblock) .forEach(d=>{
+          datas={}
+          var vis={}
+ 
+          datas.adviseshort = d3.select(d).select(".adviseshort").node().value
+          datas.adviselong =  d3.select(d).select(".adviselong").node().value
+        
+          vis.advice = datas
+          arrs.push(vis)
+            console.log(    d3.select(d).select(".adviseshort").node().value)
+            console.log(    d3.select(d).select(".adviselong").node().value)
+            console.log(arrs)
+          })
+          arrs2.Visual=arrs
+          console.log(arrs2)
+         }else if($(k).val()=="Photo"){
+     
+    
+          var ploblock=$(k).parent().parent().next()
+        
+          var a1=Array.from($(ploblock).children()) 
+          a1.forEach(d=>{
+            datas={}
+            var photo={}
+            console.log(    d3.select(d).select(".shortproblem").node().value)
+            console.log(    d3.select(d).select(".form-control").node().value)
+            datas.Problem_short =  d3.select(d).select(".shortproblem").node().value
+            datas.Problem_long =    d3.select(d).select(".form-control").node().value
+             
+            photo.problem = datas
+            arrss.push(photo)
+          })
+          var adviceblock=$(k).parent().parent().next().next() .next() .next() .next() .children()
+          console.log(Array.from(adviceblock) )
+         Array.from(adviceblock) .forEach(d=>{
+      
+          datas={}
+          var photo={}
+            console.log(    d3.select(d).select(".adviseshort").node().value)
+            console.log(    d3.select(d).select(".adviselong").node().value)
+            datas.advice_short =  d3.select(d).select(".adviseshort").node().value
+            datas.advice_long =   d3.select(d).select(".adviselong").node().value
+            photo.advice= datas
+            arrss.push(photo)
+          })
+          arrs2.Photo=arrss
+          console.log(arrs2)
+         }else if($(k).val()=="DNA"){
+          var ploblock=$(k).parent().parent().next()
+        
+          var a1=Array.from($(ploblock).children()) 
+          a1.forEach(d=>{
+     
+
+            datas={}
+        
+            var DNA={}
+            datas.Problem_short =   d3.select(d).select(".shortproblem").node().value
+            datas.Problem_long =    d3.select(d).select(".form-control").node().value
+            DNA.problem= datas
+            arrsss.push(DNA)
+          })
+
+          var adviceblock=$(k).parent().parent().next().next() .next() .next() .next() .children()
+          console.log(Array.from(adviceblock) )
+         Array.from(adviceblock) .forEach(d=>{
+          datas={}
+          var DNA={}
+            console.log(    d3.select(d).select(".adviseshort").node().value)
+            console.log(    d3.select(d).select(".adviselong").node().value)
+            datas.advice_short =  d3.select(d).select(".adviseshort").node().value
+            datas.advice_long =   d3.select(d).select(".adviselong").node().value
+            DNA.advice=datas
+            arrsss.push(DNA)
+          })
+          arrs2.DNA=arrsss
+          console.log(arrs2)
+         }
+        }
+ 
+    console.log( $("#user").val())
+    console.log($("#sampleid").val())
+     
+      });
     });
    
   </script>

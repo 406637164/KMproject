@@ -6,16 +6,17 @@ const app = express();
 const tableRoutes = require("./routes/samples");
 // const indexRoutes = require("./routes/index");
 const indexData = require("./routes/index");
-app.use(bodyParser.urlencoded({ extended: false }));
+const errorController = require("./controller/error");
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.set("view engine", "ejs");
-app.use("/index", indexData.routes);
+app.use("/index", indexData);
 app.use("/api", tableRoutes);
 // app.use((req, res, next) => {
 //   res.status(404).sendfile(path.join(__dirname, "views", "404.html"));
 // });
-app.use((req, res, next) => {
-  res.status(404).render("404", { pageTitle: "Page not found" });
-});
+app.use(errorController.get404);
 app.use(express.static(path.join(__dirname + "public")));
 // app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.static(path.join(__dirname, "node_modules/bootstrap/dist/")));
